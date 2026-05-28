@@ -2,519 +2,503 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="description" content="AvatarMix: Identity-Preserving Cross-Avatar Composition for Outfit Personalization. CVPR 2026 Findings project page.">
+  <meta name="keywords" content="AvatarMix, 3D Gaussian Splatting, 3DGS, avatar composition, outfit personalization, virtual try-on, CVPR 2026 Findings">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <!-- Primary Meta Tags -->
-  <!-- TODO: Replace with your paper title and author names -->
-  <meta name="title" content="PAPER_TITLE - AUTHOR_NAMES">
-  <!-- TODO: Write a compelling 150-160 character description of your research -->
-  <meta name="description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
-  <!-- TODO: Add 5-10 relevant keywords for your research area -->
-  <meta name="keywords" content="KEYWORD1, KEYWORD2, KEYWORD3, machine learning, computer vision, AI">
-  <!-- TODO: List all authors -->
-  <meta name="author" content="FIRST_AUTHOR_NAME, SECOND_AUTHOR_NAME">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="English">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="article">
-  <!-- TODO: Replace with your institution or lab name -->
-  <meta property="og:site_name" content="INSTITUTION_OR_LAB_NAME">
-  <!-- TODO: Same as paper title above -->
-  <meta property="og:title" content="PAPER_TITLE">
-  <!-- TODO: Same as description above -->
-  <meta property="og:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
-  <!-- TODO: Replace with your actual website URL -->
-  <meta property="og:url" content="https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE">
-  <!-- TODO: Create a 1200x630px preview image and update path -->
-  <meta property="og:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="PAPER_TITLE - Research Preview">
-  <meta property="article:published_time" content="2024-01-01T00:00:00.000Z">
-  <meta property="article:author" content="FIRST_AUTHOR_NAME">
-  <meta property="article:section" content="Research">
-  <meta property="article:tag" content="KEYWORD1">
-  <meta property="article:tag" content="KEYWORD2">
+  <meta name="theme-color" content="#4b7cb6">
 
-  <!-- Twitter -->
+  <meta property="og:title" content="AvatarMix: Identity-Preserving Cross-Avatar Composition for Outfit Personalization">
+  <meta property="og:description" content="A compositional framework for identity-preserving 3D avatar outfit personalization with mesh-based Gaussian avatars, GSReshape, SeamFix, and FullbodyFix.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://larsph.github.io/avatarmix/">
+
   <meta name="twitter:card" content="summary_large_image">
-  <!-- TODO: Replace with your lab/institution Twitter handle -->
-  <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE">
-  <!-- TODO: Replace with first author's Twitter handle -->
-  <meta name="twitter:creator" content="@AUTHOR_TWITTER_HANDLE">
-  <!-- TODO: Same as paper title above -->
-  <meta name="twitter:title" content="PAPER_TITLE">
-  <!-- TODO: Same as description above -->
-  <meta name="twitter:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
-  <!-- TODO: Same as social preview image above -->
-  <meta name="twitter:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
-  <meta name="twitter:image:alt" content="PAPER_TITLE - Research Preview">
+  <meta name="twitter:title" content="AvatarMix">
+  <meta name="twitter:description" content="Identity-preserving cross-avatar composition for outfit personalization.">
 
-  <!-- Academic/Research Specific -->
-  <meta name="citation_title" content="PAPER_TITLE">
-  <meta name="citation_author" content="FIRST_AUTHOR_LAST, FIRST_AUTHOR_FIRST">
-  <meta name="citation_author" content="SECOND_AUTHOR_LAST, SECOND_AUTHOR_FIRST">
-  <meta name="citation_publication_date" content="2024">
-  <meta name="citation_conference_title" content="CONFERENCE_NAME">
-  <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf">
-  
-  <!-- Additional SEO -->
-  <meta name="theme-color" content="#2563eb">
-  <meta name="msapplication-TileColor" content="#2563eb">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  
-  <!-- Preconnect for performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://ajax.googleapis.com">
-  <link rel="preconnect" href="https://documentcloud.adobe.com">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <title>AvatarMix: Identity-Preserving Cross-Avatar Composition for Outfit Personalization</title>
 
+  <!-- Academic Project Page Template dependencies. Keep the original static/ folder from the template repository. -->
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
 
-  <!-- TODO: Replace with your paper title and authors -->
-  <title>PAPER_TITLE - AUTHOR_NAMES | Academic Research</title>
-  
-  <!-- Favicon and App Icons -->
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
-  <link rel="apple-touch-icon" href="static/images/favicon.ico">
-  
-  <!-- Critical CSS - Load synchronously -->
-  <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/index.css">
-  
-  <!-- Non-critical CSS - Load asynchronously -->
-  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  
-  <!-- Fallback for browsers that don't support preload -->
-  <noscript>
-    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  </noscript>
-  
-  <!-- Fonts - Optimized loading -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Defer non-critical JavaScript -->
-  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-  <script defer src="static/js/fontawesome.all.min.js"></script>
-  <script defer src="static/js/bulma-carousel.min.js"></script>
-  <script defer src="static/js/bulma-slider.min.js"></script>
-  <script defer src="static/js/index.js"></script>
-  
-  <!-- Structured Data for Academic Papers -->
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/bulma-carousel.min.js"></script>
+  <script defer src="./static/js/bulma-slider.min.js"></script>
+  <script defer src="./static/js/index.js"></script>
+
+  <style>
+    :root {
+      --avatarmix-blue: #4b7cb6;
+      --avatarmix-blue-dark: #315d8e;
+      --avatarmix-green: #40a060;
+      --avatarmix-orange: #e68a2e;
+      --avatarmix-bg: #f7f9fc;
+      --avatarmix-border: #dbe5f2;
+      --avatarmix-text-soft: #5f6f83;
+    }
+
+    body {
+      background: #ffffff;
+    }
+
+    .hero.is-light.avatar-hero {
+      background:
+        radial-gradient(circle at 10% 10%, rgba(75, 124, 182, 0.18), transparent 28%),
+        radial-gradient(circle at 90% 20%, rgba(64, 160, 96, 0.12), transparent 30%),
+        linear-gradient(135deg, #f7fbff 0%, #eef5fc 60%, #f8fbf7 100%);
+    }
+
+    .publication-title {
+      letter-spacing: -0.02em;
+    }
+
+    .venue-tag {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(75, 124, 182, 0.12);
+      color: var(--avatarmix-blue-dark);
+      font-weight: 700;
+    }
+
+    .coming-soon {
+      pointer-events: none;
+      opacity: 0.72;
+      cursor: not-allowed;
+    }
+
+    .under-construction {
+      border: 1px solid var(--avatarmix-border);
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--avatarmix-text-soft);
+      margin-top: 1.5rem;
+    }
+
+    .tldr-box {
+      border-left: 5px solid var(--avatarmix-blue);
+      background: var(--avatarmix-bg);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      margin: 1.5rem 0 0;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      justify-content: center;
+    }
+
+    .pill {
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid var(--avatarmix-border);
+      color: var(--avatarmix-text-soft);
+      font-size: 0.95rem;
+    }
+
+    .info-card {
+      height: 100%;
+      border: 1px solid var(--avatarmix-border);
+      border-radius: 18px;
+      padding: 1.25rem;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(45, 75, 112, 0.06);
+    }
+
+    .info-card h3 {
+      color: var(--avatarmix-blue-dark);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .method-step {
+      position: relative;
+      height: 100%;
+      border: 1px solid var(--avatarmix-border);
+      border-radius: 18px;
+      padding: 1.25rem 1.25rem 1.25rem 1.4rem;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(45, 75, 112, 0.05);
+    }
+
+    .method-step::before {
+      content: attr(data-step);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      margin-bottom: 0.75rem;
+      border-radius: 999px;
+      background: var(--avatarmix-blue);
+      color: white;
+      font-weight: 700;
+    }
+
+    .method-step h3 {
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      color: #22364e;
+    }
+
+    .metric-table th {
+      color: #22364e;
+      background: #f0f5fb;
+    }
+
+    .metric-table td,
+    .metric-table th {
+      vertical-align: middle;
+    }
+
+    .ours-row td {
+      font-weight: 700;
+      color: #173b27;
+      background: rgba(64, 160, 96, 0.09);
+    }
+
+    .callout {
+      border-radius: 18px;
+      padding: 1.25rem;
+      background: linear-gradient(135deg, rgba(75, 124, 182, 0.10), rgba(64, 160, 96, 0.10));
+      border: 1px solid var(--avatarmix-border);
+    }
+
+    .todo-note {
+      font-size: 0.95rem;
+      color: var(--avatarmix-text-soft);
+    }
+
+    footer.footer {
+      background: #f7f9fc;
+      padding: 2.5rem 1.5rem;
+    }
+
+    code, pre {
+      white-space: pre-wrap;
+    }
+  </style>
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
-    "headline": "PAPER_TITLE",
-    "description": "BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS",
+    "name": "AvatarMix: Identity-Preserving Cross-Avatar Composition for Outfit Personalization",
     "author": [
-      {
-        "@type": "Person",
-        "name": "FIRST_AUTHOR_NAME",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "INSTITUTION_NAME"
-        }
-      },
-      {
-        "@type": "Person",
-        "name": "SECOND_AUTHOR_NAME",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "INSTITUTION_NAME"
-        }
-      }
+      {"@type": "Person", "name": "Zhaorong Wang"},
+      {"@type": "Person", "name": "Yoshihiro Kanamori"},
+      {"@type": "Person", "name": "Yuki Endo"}
     ],
-    "datePublished": "2024-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "CONFERENCE_OR_JOURNAL_NAME"
-    },
-    "url": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE",
-    "image": "https://YOUR_DOMAIN.com/static/images/social_preview.png",
-    "keywords": ["KEYWORD1", "KEYWORD2", "KEYWORD3", "machine learning", "computer vision"],
-    "abstract": "FULL_ABSTRACT_TEXT_HERE",
-    "citation": "BIBTEX_CITATION_HERE",
-    "isAccessibleForFree": true,
-    "license": "https://creativecommons.org/licenses/by/4.0/",
-    "mainEntity": {
-      "@type": "WebPage",
-      "@id": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE"
-    },
-    "about": [
-      {
-        "@type": "Thing",
-        "name": "RESEARCH_AREA_1"
-      },
-      {
-        "@type": "Thing", 
-        "name": "RESEARCH_AREA_2"
-      }
-    ]
-  }
-  </script>
-  
-  <!-- Website/Organization Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "INSTITUTION_OR_LAB_NAME",
-    "url": "https://YOUR_INSTITUTION_WEBSITE.com",
-    "logo": "https://YOUR_DOMAIN.com/static/images/favicon.ico",
-    "sameAs": [
-      "https://twitter.com/YOUR_TWITTER_HANDLE",
-      "https://github.com/YOUR_GITHUB_USERNAME"
-    ]
+    "publisher": {"@type": "Organization", "name": "University of Tsukuba"},
+    "url": "https://larsph.github.io/avatarmix/"
   }
   </script>
 </head>
+
 <body>
-
-
-  <!-- Scroll to Top Button -->
-  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
-    <i class="fas fa-chevron-up"></i>
-  </button>
-
-  <!-- More Works Dropdown -->
-  <div class="more-works-container">
-    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
-      <i class="fas fa-flask"></i>
-      More Works
-      <i class="fas fa-chevron-down dropdown-arrow"></i>
-    </button>
-    <div class="more-works-dropdown" id="moreWorksDropdown">
-      <div class="dropdown-header">
-        <h4>More Works from Our Lab</h4>
-        <button class="close-btn" onclick="toggleMoreWorks()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="works-list">
-        <!-- TODO: Replace with your lab's related works -->
-        <a href="https://arxiv.org/abs/PAPER_ID_1" class="work-item" target="_blank">
-          <div class="work-info">
-            <!-- TODO: Replace with actual paper title -->
-            <h5>Paper Title 1</h5>
-            <!-- TODO: Replace with brief description -->
-            <p>Brief description of the work and its main contribution.</p>
-            <!-- TODO: Replace with venue and year -->
-            <span class="work-venue">Conference/Journal 2024</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-        <!-- TODO: Add more related works or remove extra items -->
-        <a href="https://arxiv.org/abs/PAPER_ID_2" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>Paper Title 2</h5>
-            <p>Brief description of the work and its main contribution.</p>
-            <span class="work-venue">Conference/Journal 2023</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-        <a href="https://arxiv.org/abs/PAPER_ID_3" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>Paper Title 3</h5>
-            <p>Brief description of the work and its main contribution.</p>
-            <span class="work-venue">Conference/Journal 2023</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <main id="main-content">
-  <section class="hero">
+  <section class="hero is-light avatar-hero">
     <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered">
-          <div class="column has-text-centered">
-            <!-- TODO: Replace with your paper title -->
-            <h1 class="title is-1 publication-title">Academic Project Page</h1>
-            <div class="is-size-5 publication-authors">
-              <!-- TODO: Replace with your paper authors and their personal links -->
-              <span class="author-block">
-                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">First Author</a><sup>*</sup>,</span>
-                <span class="author-block">
-                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Second Author</a><sup>*</sup>,</span>
-                  <span class="author-block">
-                    <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Third Author</a>
-                  </span>
-                  </div>
+      <div class="container is-max-desktop has-text-centered">
+        <h1 class="title is-1 publication-title">AvatarMix</h1>
+        <h2 class="subtitle is-3 publication-subtitle">Identity-Preserving Cross-Avatar Composition for Outfit Personalization</h2>
 
-                  <div class="is-size-5 publication-authors">
-                    <!-- TODO: Replace with your institution and conference/journal info -->
-                    <span class="author-block">Institution Name<br>Conference name and year</span>
-                    <!-- TODO: Remove this line if no equal contribution -->
-                    <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
-                  </div>
+        <div class="is-size-5 publication-authors">
+          <span class="author-block"><a href="https://larsph.github.io/">Zhaorong Wang</a><sup>1</sup></span>
+          <span class="author-block"><a href="https://kanamori.cs.tsukuba.ac.jp/">Yoshihiro Kanamori</a><sup>1</sup></span>
+          <span class="author-block"><a href="https://endo-yuki-t.github.io/"></a>Yuki Endo</a><sup>1</sup></span>
+        </div>
 
-                  <div class="column has-text-centered">
-                    <div class="publication-links">
-                         <!-- TODO: Update with your arXiv paper ID -->
-                      <span class="link-block">
-                        <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank"
-                        class="external-link button is-normal is-rounded is-dark">
-                        <span class="icon">
-                          <i class="fas fa-file-pdf"></i>
-                        </span>
-                        <span>Paper</span>
-                      </a>
-                    </span>
+        <div class="is-size-5 publication-authors">
+          <span class="author-block"><sup>1</sup>University of Tsukuba</span>
+        </div>
 
-                    <!-- TODO: Add your supplementary material PDF or remove this section -->
-                    <span class="link-block">
-                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
-                      class="external-link button is-normal is-rounded is-dark">
-                      <span class="icon">
-                        <i class="fas fa-file-pdf"></i>
-                      </span>
-                      <span>Supplementary</span>
-                    </a>
-                  </span>
+        <div class="venue-tag">CVPR 2026 Findings</div>
 
-                  <!-- TODO: Replace with your GitHub repository URL -->
-                  <span class="link-block">
-                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Code</span>
-                  </a>
-                </span>
-
-                <!-- TODO: Update with your arXiv paper ID -->
-                <span class="link-block">
-                  <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
-                  class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                    <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-            </div>
+        <div class="column has-text-centered">
+          <div class="publication-links">
+            <span class="link-block">
+              <a class="external-link button is-normal is-rounded is-dark coming-soon" aria-disabled="true">
+                <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                <span>Paper coming soon</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a class="external-link button is-normal is-rounded is-dark coming-soon" aria-disabled="true">
+                <span class="icon"><i class="fas fa-images"></i></span>
+                <span>Poster coming soon</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a class="external-link button is-normal is-rounded is-dark coming-soon" aria-disabled="true">
+                <span class="icon"><i class="fab fa-youtube"></i></span>
+                <span>Video coming soon</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a class="external-link button is-normal is-rounded is-dark coming-soon" aria-disabled="true">
+                <span class="icon"><i class="fab fa-github"></i></span>
+                <span>Code coming soon</span>
+              </a>
+            </span>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-
-<!-- Teaser video-->
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <!-- TODO: Replace with your teaser video -->
-      <video poster="" id="tree" autoplay controls muted loop height="100%" preload="metadata">
-        <!-- TODO: Add your video file path here -->
-        <source src="static/videos/banner_video.mp4" type="video/mp4">
-      </video>
-      <!-- TODO: Replace with your video description -->
-      <h2 class="subtitle has-text-centered">
-        Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus. 
-      </h2>
-    </div>
-  </div>
-</section>
-<!-- End teaser video -->
-
-<!-- Paper abstract -->
-<section class="section hero is-light">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <!-- TODO: Replace with your paper abstract -->
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ullamcorper tellus sed ante aliquam tempus. Etiam porttitor urna feugiat nibh elementum, et tempor dolor mattis. Donec accumsan enim augue, a vulputate nisi sodales sit amet. Proin bibendum ex eget mauris cursus euismod nec et nibh. Maecenas ac gravida ante, nec cursus dui. Vivamus purus nibh, placerat ac purus eget, sagittis vestibulum metus. Sed vestibulum bibendum lectus gravida commodo. Pellentesque auctor leo vitae sagittis suscipit.
-          </p>
+        <div class="under-construction">
+          <strong>Project page under construction.</strong>
+          This initial page is prepared for the CVPR poster QR code. Paper, code, poster, videos, and additional results will be added later.
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End paper abstract -->
 
-
-<!-- Image carousel -->
-<section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-       <div class="item">
-        <!-- TODO: Replace with your research result images -->
-        <img src="static/images/carousel1.jpg" alt="First research result visualization" loading="lazy"/>
-        <!-- TODO: Replace with description of this result -->
-        <h2 class="subtitle has-text-centered">
-          First image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel2.jpg" alt="Second research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-          Second image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel3.jpg" alt="Third research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-         Third image description.
-       </h2>
-     </div>
-     <div class="item">
-      <!-- Your image here -->
-      <img src="static/images/carousel4.jpg" alt="Fourth research result visualization" loading="lazy"/>
-      <h2 class="subtitle has-text-centered">
-        Fourth image description.
-      </h2>
-    </div>
-  </div>
-</div>
-</div>
-</section>
-<!-- End image carousel -->
-
-
-
-
-<!-- Youtube video -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <!-- Paper video. -->
-      <h2 class="title is-3">Video Presentation</h2>
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          
-          <div class="publication-video">
-            <!-- TODO: Replace with your YouTube video ID -->
-            <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
+        <div class="pill-row">
+          <span class="pill">3D Gaussian Splatting</span>
+          <span class="pill">Mesh-based avatars</span>
+          <span class="pill">Outfit personalization</span>
+          <span class="pill">Cross-avatar composition</span>
+          <span class="pill">Diffusion refinement</span>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End youtube video -->
-
-
-<!-- Video carousel -->
-<section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title is-3">Another Carousel</h2>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-video1">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video1" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel1.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video2">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video2" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel2.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video3">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video3" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel3.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End video carousel -->
-
-
-
-
-
-
-<!-- Paper poster -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title">Poster</h2>
-
-      <!-- TODO: Replace with your poster PDF -->
-      <iframe  src="static/pdfs/sample.pdf" width="100%" height="550">
-          </iframe>
-        
       </div>
     </div>
   </section>
-<!--End paper poster -->
 
-
-
-<!--BibTex citation -->
-  <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <div class="bibtex-header">
-        <h2 class="title">BibTeX</h2>
-        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
-          <i class="fas fa-copy"></i>
-          <span class="copy-text">Copy</span>
-        </button>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="tldr-box">
+        <p class="is-size-5">
+          <strong>TL;DR:</strong> Compose first, repair locally. AvatarMix reuses high-fidelity 3DGS avatar parts for outfit personalization, reshapes the clothed body to match the user's physique, and applies targeted diffusion refinement only where composition artifacts appear.
+        </p>
       </div>
-      <pre id="bibtex-code"><code>@article{YourPaperKey2024,
-  title={Your Paper Title Here},
-  author={First Author and Second Author and Third Author},
-  journal={Conference/Journal Name},
-  year={2024},
-  url={https://your-domain.com/your-project-page}
-}</code></pre>
     </div>
-</section>
-<!--End BibTex citation -->
+  </section>
 
+  <section class="section pt-0">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Abstract</h2>
+      <div class="content is-size-5">
+        <p>
+          Existing 3D avatar outfit transfer methods often face a trade-off between outfit fidelity, identity preservation, and geometric robustness. Methods that lift 2D edits into 3D can suffer from texture degradation, hallucinated details, and multi-view inconsistency, while layered body-and-clothing methods can introduce garment-body intersections and require complex collision handling.
+        </p>
+        <p>
+          AvatarMix takes a different approach. We directly compose the head and clothed body from two high-fidelity Gaussian avatars: a <strong>User</strong> avatar that provides identity cues and a <strong>Model</strong> avatar that provides the desired outfit. This explicit 3D composition preserves the geometry and texture of the source outfit while avoiding layer-intersection issues by design.
+        </p>
+        <p>
+          To make cross-avatar composition practical, AvatarMix introduces <strong>GSReshape</strong>, a mesh-based Gaussian retargeting module that reshapes the model's clothed body to match the user's physique. We further introduce a two-tier diffusion refinement strategy: <strong>SeamFix</strong> locally repairs hair and neck seams, while <strong>FullbodyFix</strong> optionally restores garment appearance when body reshaping introduces visible artifacts. Both refiners operate on renders from an already 3D-consistent Gaussian avatar, limiting multi-view artifacts compared to conventional 2D-to-3D editing pipelines.
+        </p>
+      </div>
+    </div>
+  </section>
 
-  <footer class="footer">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-
-          <p>
-            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-
+  <section class="section has-background-light">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Task &amp; Motivation</h2>
+      <div class="columns is-variable is-5">
+        <div class="column">
+          <div class="info-card">
+            <h3 class="title is-4">Task</h3>
+            <p>
+              Given two mesh-based 3D Gaussian avatars, combine the <strong>User</strong>'s identity with the <strong>Model</strong>'s outfit. Identity is treated beyond the face: it includes the head and neck, body shape and scale, and skin tone.
+            </p>
+          </div>
+        </div>
+        <div class="column">
+          <div class="info-card">
+            <h3 class="title is-4">Why is this hard?</h3>
+            <ul>
+              <li>2D-to-3D try-on can degrade garment texture and view consistency.</li>
+              <li>Layered garment transfer can introduce body-clothing intersections.</li>
+              <li>Naive composition creates head-neck seams and segmentation artifacts.</li>
+              <li>Body reshaping should preserve detailed garment appearance.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</footer>
+  </section>
 
-<!-- Statcounter tracking code -->
-  
-<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Method Overview</h2>
+      <div class="columns is-multiline is-variable is-4">
+        <div class="column is-half">
+          <div class="method-step" data-step="1">
+            <h3 class="title is-4">Mesh-based Avatar Reconstruction</h3>
+            <p>
+              Reconstruct high-fidelity mesh-based 3DGS avatars from multi-view images, with semantic segmentation and SMPL-X fitting for part-aware geometric operations.
+            </p>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="method-step" data-step="2">
+            <h3 class="title is-4">Cross-Avatar Composition</h3>
+            <p>
+              Align the User's head and neck to the Model pose, combine them with the Model's clothed body, and transfer the User's skin tone to preserve identity consistency.
+            </p>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="method-step" data-step="3">
+            <h3 class="title is-4">GSReshape</h3>
+            <p>
+              Retarget the Model's clothed body to the User's physique by jointly deforming the mesh and its attached Gaussians, enabling body-shape-aware outfit personalization.
+            </p>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="method-step" data-step="4">
+            <h3 class="title is-4">SeamFix &amp; FullbodyFix</h3>
+            <p>
+              Repair seam and reshaping artifacts with diffusion-based refiners, then use refined multi-view renders to update the composed 3DGS avatar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- End of Statcounter Code -->
+  <section class="section has-background-light">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Training Artifact Refiners</h2>
+      <div class="content is-size-5">
+        <p>
+          Cross-avatar compositions do not naturally provide pixel-aligned ground truth for training artifact refiners. AvatarMix synthesizes such pairs with a <strong>double-swapping</strong> strategy. A first head swap introduces realistic composition artifacts, and a second swap returns the avatar to the original layout, yielding artifact/ground-truth pairs aligned in image space.
+        </p>
+        <p>
+          <strong>SeamFix</strong> is trained on portrait crops focusing on the head and neck region, while <strong>FullbodyFix</strong> is trained on full-body renders to restore garment and skin artifacts. Both branches fine-tune LoRA adapters of a diffusion-based artifact refinement backbone.
+        </p>
+      </div>
+    </div>
+  </section>
 
-  </body>
-  </html>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Results Summary</h2>
+      <div class="content is-size-5">
+        <p>
+          AvatarMix is evaluated on THUman2.0 against representative 3D virtual try-on and 3DGS editing baselines. Compared with VTON360 and TIP-Editor, AvatarMix better preserves the target outfit, the user's head and neck identity, and multi-view consistency.
+        </p>
+      </div>
+      <div class="table-container">
+        <table class="table is-fullwidth is-striped metric-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Editing Target DINO ↑</th>
+              <th>Head+Neck DINO ↑</th>
+              <th>Warping RMSE ↓</th>
+              <th>Vote Overall ↑</th>
+              <th>Vote Consistency ↑</th>
+              <th>Vote Facial ↑</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>VTON360</td>
+              <td>0.633</td>
+              <td>0.786</td>
+              <td>0.0276</td>
+              <td>8.70%</td>
+              <td>10.43%</td>
+              <td>7.83%</td>
+            </tr>
+            <tr>
+              <td>TIP-Editor</td>
+              <td>N/A</td>
+              <td>0.356</td>
+              <td>0.0388</td>
+              <td>2.61%</td>
+              <td>2.61%</td>
+              <td>0%</td>
+            </tr>
+            <tr class="ours-row">
+              <td>AvatarMix (Ours)</td>
+              <td>0.883</td>
+              <td>0.818</td>
+              <td>0.0175</td>
+              <td>88.69%</td>
+              <td>86.96%</td>
+              <td>92.17%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="todo-note">
+        Additional qualitative results, ablations, and videos will be added after the release materials are finalized.
+      </p>
+    </div>
+  </section>
+
+  <section class="section has-background-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-variable is-5">
+        <div class="column">
+          <div class="callout">
+            <h2 class="title is-4">Key Takeaways</h2>
+            <ul>
+              <li>Compose first, repair locally.</li>
+              <li>Mesh-based Gaussians make geometric identity transfer practical.</li>
+              <li>Diffusion refinement acts as cleanup, not full outfit generation.</li>
+              <li>The framework preserves outfit details, facial identity, skin tone consistency, and multi-view coherence.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="column">
+          <div class="callout">
+            <h2 class="title is-4">Limitations &amp; Future Work</h2>
+            <ul>
+              <li>Requires high-quality mesh-based Gaussian avatars as input.</li>
+              <li>FullbodyFix is currently triggered by visual inspection.</li>
+              <li>Animatable cross-avatar outfit transfer remains future work.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop content">
+      <h2 class="title is-3 has-text-centered">Citation</h2>
+      <p>BibTeX will be added soon.</p>
+      <pre><code>@inproceedings{wang2026avatarmix,
+  title     = {AvatarMix: Identity-Preserving Cross-Avatar Composition for Outfit Personalization},
+  author    = {Wang, Zhaorong and Kanamori, Yoshihiro and Endo, Yuki},
+  booktitle = {CVPR Findings},
+  year      = {2026}
+}</code></pre>
+      <p class="todo-note">
+        Please replace this preliminary citation with the official conference citation when available.
+      </p>
+    </div>
+  </section>
+
+  <section class="section has-background-light">
+    <div class="container is-max-desktop content has-text-centered">
+      <h2 class="title is-3">Contact</h2>
+      <p>
+        <strong>Zhaorong Wang</strong><br>
+        University of Tsukuba<br>
+        <a href="mailto:zhaorong.wang1997@gmail.com">zhaorong.wang1997@gmail.com</a> · <a href="https://larsph.github.io/">larsph.github.io</a>
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        This website is adapted from the Academic Project Page template. Project page content is under construction.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
